@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: rgb(2,0,36);
+            background: radial-gradient(circle, rgba(2,0,36,1) 0%, #0551a0 100%, rgba(26,26,39,1) 100%);
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-around;
+            color:whitesmoke;
+            padding: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        a{
+            color:whitesmoke;
+            text-decoration: none;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 30px;
+        }
+        .section {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px #0000001a;
+            width: 400px;
+            margin-bottom: 20px;
+            border: 2px solid #4a4aef;
+            text-align: left; 
+            display:flex; 
+            flex-direction: column; 
+            align-items: center;
+        }
+        .section2{
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px #0000001a;
+            width: 400px;
+            margin-bottom: 20px;
+            border: 2px solid #4a4aef;
+            text-align: center;
+        }
+        .profile-pic {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            display: block;
+            margin: 0 auto;
+        }
+        .user-details p, .password-section p {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+            cursor: pointer;
+        }
+        .edit-icon {
+            color: blue;
+            cursor: pointer;
+        }
+        .edit-input {
+            display: none;
+        }
+        .logout-button {
+            background-color: #0551a0;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+    <script>
+        function editField(fieldId) {
+            let textElement = document.getElementById(fieldId + '-text');
+            let inputElement = document.getElementById(fieldId + '-input');
+            textElement.style.display = 'none';
+            inputElement.style.display = 'inline';
+            inputElement.focus();
+        }
+        function saveField(fieldId) {
+            let textElement = document.getElementById(fieldId + '-text');
+            let inputElement = document.getElementById(fieldId + '-input');
+            textElement.innerText = inputElement.value;
+            textElement.style.display = 'inline';
+            inputElement.style.display = 'none';
+        }
+    </script>
+</head>
+<body>
+    <div class="navbar">
+        <a href="#1">Edit Profile</a>
+        <a href="#2">Edit Password</a>
+        <a href="#3">User Logout</a>
+    </div>
+    <div class="container" id ="1">
+        <div class="section">
+            <img src="profilePic.jpg" alt="Profile Picture" class="profile-pic">
+            <h2>Name</h2>
+            <input type=s"text" id="username-input" class="edit-input" value="@jennywilson" onblur="saveField('username')">
+            
+            <div class="user-details">
+                <p><strong>Username:</strong> <span id="name">username</span> <span class="edit-icon" onclick="editField('name')">✎</span></p>
+                <input type="text" id="name-input" class="edit-input" value="Jenny Wilson" onblur="saveField('name')">
+                
+                <p><strong>Email:&nbsp;</strong> <span id="email">email</span> <span class="edit-icon" onclick="editField('email')">✎</span></p>
+                <input type="text" id="email-input" class="edit-input" value="jenny@gmail.com" onblur="saveField('email')">
+                
+                <p><strong>Address:&nbsp;</strong> <span id="address">address to be updated</span> <span class="edit-icon" onclick="editField('address')">✎</span></p>
+                <input type="text" id="address-input" class="edit-input" value="New York, USA" onblur="saveField('address')">
+
+                <p><strong>Phone:&nbsp;</strong> <span id="phone">phone</span> <span class="edit-icon" onclick="editField('phone')">✎</span></p>
+                <input type="text" id="phone-input" class="edit-input" value="" onblur="saveField('phone')">
+            </div>
+        </div>
+        
+        <div class="section2" id ="2">
+            <h3>Change Password</h3>
+            <input id="oldpwd" type="password" placeholder="Current Password"><br><br>
+            <input id="newpwd" type="password" placeholder="New Password"><br><br>
+            <input id="confirm" type="password" placeholder="Confirm New Password"><br><br>
+            <button onclick="changePwd()">Update Password</button>
+        </div>
+        
+        <div class="section" id ="3">
+            <button class="logout-button" onclick="logout()">Logout</button>
+        </div>
+    </div>
+    <script src = "userProfileScript.js"></script>
+</body>
+</html>

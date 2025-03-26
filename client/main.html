@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="styles.css">
+    <title>Cars Now</title>
+</head>
+<body>
+    <header id="header">
+        <p id="heading">Cars Now</p>
+    </header>
+    <nav id="navbar">
+        <button id="login">Login / Sign Up</button>
+    </nav>
+
+    <div class="container">
+        <div class="filters">
+            <h3>Filters</h3>
+        
+            <div class="filter-item">
+                <label for="brand">Brand</label><br>
+                <select id="brand">
+                    <option value="all">All</option>
+                    <option value="Toyota">Toyota</option>
+                    <option value="Honda">Honda</option>
+                    <option value="Ford">Ford</option>
+                    <option value="Chevrolet">Chevrolet</option>
+                    <option value="Nissan">Nissan</option>
+                    <option value="Hyundai">Hyundai</option>
+                    <option value="Kai">Kai</option>
+                    <option value="Audi">Audi</option>
+                    <option value="BMW">BMW</option>
+                </select>
+            </div>
+        
+            <div class="filter-item">
+                <label for="year">Year</label><br>
+                <select id="year">
+                    <option value="all">All</option>
+                    <option value="2015">2015</option>
+                    <option value="2016">2016</option>
+                    <option value="2017">2017</option>
+                    <option value="2018">2018</option>
+                    <option value="2019">2019</option>
+                    <option value="2020">2020</option>
+                    <option value="2021">2021</option>
+                    <option value="2022">2022</option>
+                    <option value="2023">2023</option>
+                    <option value="2024">2024</option>
+                    <option value="2025">2025</option>
+                </select>
+            </div>
+        
+            <div class="filter-item">
+                <label for="price">Price Range</label><br>
+                <select id="price">
+                    <option value="all">All</option>
+                    <option value="low">₹0 - ₹10L</option>
+                    <option value="medium">₹10L - ₹50L</option>
+                    <option value="high">₹50L+</option>
+                </select>
+            </div>
+        
+            <div class="filter-item">
+                <label for="engine">Engine Type</label><br>
+                <select id="engine">
+                    <option value="all">All</option>
+                    <option value="Petrol">Petrol</option>
+                    <option value="Diesel">Diesel</option>
+                </select>
+            </div>
+        
+            <button id="showbtn">Apply Filters</button>
+        </div>
+
+        <div class="inventory"></div>
+    </div>
+
+    <footer>
+        <p>Cars Now &copy; 2025</p>
+    </footer>
+    <script src="main.js"></script>
+</body>
+</html>
