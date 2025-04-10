@@ -1,52 +1,45 @@
-const loadNum = 0;
-document.getElementById("see-cars").style = "border-top: solid black 5px";
-document.addEventListener("DOMContentLoaded",function(){
-    const data = localStorage.getItem("profiles");
-    console.log(data);
-    if(data != null){
-        let btn = document.getElementById("login");
-        let parent = document.getElementById("hlinks");
-        parent.removeChild(btn);
-        let profileBtn = document.createElement("a");
-        profileBtn.id = "profile";
-        profileBtn.textContent = "Profile";
-        let sell = document.createElement('a');
-        sell.id="sell-car";
-        sell.innerText = "Sell Car";
-        parent.appendChild(sell);
-        parent.appendChild(profileBtn);
-        document.getElementById("profile").addEventListener("click",profile);
-        document.getElementById("sell-car").addEventListener("click",sellCar);
-    }
-});
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Cars Now|Sell car </title>
+    </head>
+    <style>
+        body{
+            margin:0px;
+        }
+        header {
+            padding:20px;
+            background:linear-gradient(to top, rgb(0, 0, 0),rgb(89, 4, 138));
+            height: 100px;
+            left:0px;
+            padding-bottom:50px;
+        }
+        #heading{
+            margin:0px;
+            color: #ffffff;
+            font-weight: bold;
+            font-size: 35px;
+            font-weight:bolder;
+            padding-top:10px;
+        }
 
-function login(){
-    localStorage.clear();
-    window.location.href = "login.html";
-}
-
-function profile(){
-    window.location.href = "userProfile.html";
-}
-
-function home(){
-    window.location.href = "home.html";
-}
-
-function compare(){
-    document.getElementById("compare").style = "border-top: solid black 5px";
-    document.getElementById("see-cars").style = "";
-    window.location.href = "carcomp.html";
-
-}
-
-function seeCars(){
-    window.location.reload();
-}
-
-function sellCar(){
-    document.getElementById("container").innerHTML = `
-    <div id="register">
+        #login,#profile,#sellcar{
+            background-color: rgb(255, 255, 255);
+            color: black;
+            height: 40px;
+            font-size: 18px;
+            font-weight:bold;
+            padding: 5px 10px;
+            border-radius: 10px;
+            margin-right:30px;
+        }
+    </style>
+    <body>
+        <header id="header">
+            <span id="heading">CARS NOW</span><br><br>
+            <span id="links"><a id="home">Home</a></span>
+        </header>
+        <div id="register">
             <label>Vehicle Type</label><br>
             <select id="vehicle-type" name="vehicle-type">
                 <option value="two">Two wheeler</option>
@@ -93,9 +86,10 @@ function sellCar(){
             </select><br>
 
             <label>Car model</label><br>
-            <input id="car-model" type="text" required><br>
+            <input type="text" required><br>
 
-            
+            <label>Phone No</label><br>
+            <input type="number" minlength="10" maxlength="10" required><br>
             <label>Registartion</label><br>
             <select id="state" name="state">
                 <option value="Andhra Pradesh">Andhra Pradesh</option>
@@ -135,88 +129,13 @@ function sellCar(){
                 <option value="Lakshadweep">Lakshadweep</option>
                 <option value="Puducherry">Puducherry</option>
             </select><br>
-            <label>Phone No</label><br>
-            <input type="number" minlength="10" maxlength="10" required><br>
             <label id="address"></label><br>
             <textarea placeholder="address" required></textarea><br>
             <label>Nearest city</label><br>
-            <input id="city" type="text"><br>
-            <button id="subbtn" onclick="carDetSub()">Submit</button>
+            <input type="text"><br>
         </div>
-    `;
-
-    
-}
-
-function carDetSub(){
-    let type = document.getElementById("vehicle-type").value;
-    let fuel = document.getElementById("fuel-type").value;
-    let make = document.getElementById("car-brand").value;
-    let model = document.getElementById("car-model").value;
-    let state = document.getElementById("state").value;
-    let phone = document.getElementById("phone").value;
-    let addr = document.getElementById("address").value;
-    let city = document.getElementById("city").value;
-    let sellCarDetails = {type:`${type}`,fuel:`${fuel}`,make:`${make}`,model:`${model}`,};
-}
-
-async function carPage(id,ct){
-    try{
-        const myData = {carid:`${id}`,ctype:`${ct}`};
-        const myDataString = JSON.stringify(myData);
-        localStorage.setItem('objects',myDataString);
-        window.location.href = "carpage.html";
-    } catch(err){
-        console.log(err);
-        console.log('Error in storing temporary data');
-    }
-}
-
-async function fetchCarListings() {
-    try {
-        console.log("show cars button was clicked!");
-
-        let model = document.getElementById("brand").value;
-        let year = document.getElementById("year").value;
-        let price = document.getElementById("price").value;
-        let engine = document.getElementById("engine").value;
-        let ct = document.getElementById("cartype").value;
-
-        if(model == 'all')model = '*';
-        if(year == 'all')year = '*';
-        if(price == 'all')price = '*';
-        if(engine == 'all')engine = '*';
-        
-        let response = await fetch(`http://localhost:5000/cars/${ct}/${model}/${year}/${price}/${engine}`,{
-            method: 'GET',
-        });
-        console.log(response);
-        if (!response.ok){
-            throw new Error("Failed to fetch car listings");
-        }
-
-
-        let cars = await response.json();
-        let carContainer = document.querySelector(".inventory");
-
-        if(cars.length == 0) carContainer.innerHTML = '<p id="errorMsg">Sorry!, No cars of the given specifications were found!</p>';
-        else{
-            carContainer.innerHTML = "";
-            cars.forEach(car => {
-                let carItem = document.createElement("div");
-                carItem.setAttribute("class","cell");
-                carItem.setAttribute("id",`${car.id}`);
-                carItem.innerHTML =  `<span><img src="./images/${car.path}"></img></span><span><h3>${car.make} ${car.model}</h3><p>Distance driven: ${car.distance} km</p><p>Price: ₹${car.price}</p><a><button class="btn" onclick="carPage(${car.id},'${ct}')">View</button></a></span>`;
-                carContainer.appendChild(carItem);
-            });
-        }
-    } catch (error) {
-        console.error("Error:", error);        
-    }
-}
-
-document.getElementById("home").addEventListener("click",home);
-document.getElementById("showbtn").addEventListener("click", fetchCarListings);
-document.getElementById("login").addEventListener("click", login);
-document.getElementById("compare").addEventListener("click",compare);
-document.getElementById("see-cars").addEventListener("click",seeCars);
+    </body>
+    <script>
+        document.getElementById("home").addEventListener("click",()=>{window.location.href="main.html"});
+    </script>
+</html>

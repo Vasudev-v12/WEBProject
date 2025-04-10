@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded",function () {
                 console.log('redirecting...');
                 const myDataString = JSON.stringify(result[0]);
                 localStorage.setItem('profiles',myDataString);
-                window.open("main.html");
+                window.location.href = "home.html";
             }
     });
 });

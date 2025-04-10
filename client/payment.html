@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LuxAuto Payment Gateway</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: #f0f0f0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        header {
+            background-color: #1e1e1e;
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-right {
+            text-align: right;
+            color: #00bcd4;
+        }
+
+        .payment-container {
+            background-color: #1e1e1e;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            margin: 30px 0;
+            overflow: hidden;
+        }
+
+        .payment-header {
+            background-color: #263238;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .payment-body {
+            padding: 30px;
+        }
+
+        .vehicle-summary {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            border-bottom: 1px solid #444;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+        }
+
+        .vehicle-image {
+            width: 200px;
+            height: 120px;
+            background-color: #333;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        .vehicle-details {
+            flex: 1;
+            padding: 0 20px;
+            min-width: 250px;
+        }
+
+        .vehicle-price {
+            font-size: 28px;
+            font-weight: bold;
+            color: #00bcd4;
+            min-width: 150px;
+            text-align: right;
+        }
+
+        .order-summary, .form-group, .security-badges, .modal-content {
+            background-color: #2c2c2c;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        label, h3 {
+            color: #e0e0e0;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #555;
+            border-radius: 8px;
+            background-color: #1e1e1e;
+            color: #fff;
+            box-sizing: border-box;
+        }
+
+        input:focus, select:focus {
+            border-color: #00bcd4;
+            outline: none;
+        }
+
+        .btn {
+            display: inline-block;
+            font-weight: 500;
+            text-align: center;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: none;
+            color: white;
+            background-color: #00bcd4;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .btn:hover {
+            background-color: #0097a7;
+        }
+
+        .security-badges {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 1 1 30%;
+            padding: 10px;
+            background-color: #3a3a3a;
+            border-radius: 6px;
+            font-size: 14px;
+            color: #ccc;
+            white-space: nowrap;
+        }
+
+        img{
+            border-radius: 10px;
+            height: 170px;
+            width: 250px;
+        }
+
+        .badge i {
+            margin-right: 8px;
+        }
+
+        footer {
+            background-color: #1e1e1e;
+            color: #aaa;
+            text-align: center;
+            padding: 30px 0;
+        }
+
+        .footer-links a {
+            color: #aaa;
+            margin: 0 10px;
+            text-decoration: none;
+        }
+
+        .footer-links a:hover {
+            color: #fff;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .processing-spinner {
+            border: 5px solid #555;
+            border-top: 5px solid #00bcd4;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 2s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .success-icon {
+            font-size: 50px;
+            color: #28a745;
+        }
+
+        @media (max-width: 768px) {
+            .vehicle-summary {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .vehicle-image {
+                margin-bottom: 15px;
+            }
+
+            .vehicle-price {
+                text-align: left;
+                margin-top: 10px;
+            }
+
+            .security-badges {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+                 <div class="header-right">
+                    <span id="cart-count">Secure Checkout</span>
+                </div>
+        </div>
+    </header>
+
+    <main class="container">
+
+
+        <div class="payment-container">
+            <div class="payment-header">
+                <h2>Secure Payment</h2>
+            </div>
+            
+            <div class="payment-body">
+                <div class="vehicle-summary">
+                    <div class="vehicle-image">
+                    </div>
+                    <div class="vehicle-details">
+                    </div>
+                    <div class="vehicle-price">
+                    </div>
+                </div>
+
+                <div class="order-summary">
+                    <h3>Order Summary</h3>
+                    <div class="summary-row">
+                        <span>Vehicle Price: &#8377;</span>
+                        <span id="vbp"></span>
+                    </div>
+                    <div class="summary-row">
+                        <span>GST: &#8377;</span>
+                        <span id="gst"></span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Total Amount: &#8377;</span>
+                        <span class="text-success"></span>
+                    </div>
+                </div>
+
+                <form id="payment-form">
+                    <h3>Payment Information</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="card-name">Name on Card</label>
+                            <input type="text" id="card-name" placeholder="John Smith" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="card-number">Card Number</label>
+                            <div class="card-input-container">
+                                <input type="text" id="card-number" placeholder="1234 5678 9012 3456" maxlength="19" required>
+                                <div class="card-icons">
+                                    <div class="card-icon">💳</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="expiry-date">Expiry Date</label>
+                            <input type="text" id="expiry-date" placeholder="MM/YY" maxlength="5" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="cvv">Security Code</label>
+                            <input type="text" id="cvv" placeholder="123" maxlength="4" required>
+                        </div>
+                    </div>
+
+                    <h3>Billing Address</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="address">Street Address</label>
+                            <input type="text" id="address" placeholder="123 Main St" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="city">City</label>
+                            <input type="text" id="city" placeholder="Chennai" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="state">State</label>
+                            <select id="state" required>
+                                <option value="">Select State</option>
+                                <option value="AL">TAMIL NADUoption>
+                                <option value="AK">MAHARASHTRA</option>
+                                <option value="AZ">ANDHRA</option>
+                                <option value="AR">TELANGANA</option>
+                                <option value="CA">DELHI</option>
+                                <option value="CO">KOLKATA</option>
+                                <option value="CT">KERALA</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="zip">PIN Code</label>
+                            <input type="text" id="zip" placeholder="603103" maxlength="6" required>
+                        </div>
+                    </div>
+
+                    <div class="security-badges">
+                        <div class="badge"><i>🔒</i> Secure Payment</div>
+                        <div class="badge"><i>🛡️</i> SSL Encrypted</div>
+                        <div class="badge"><i>👁️</i> Privacy Protected</div>
+                    </div>
+
+                    <div style="margin-top: 30px;">
+                        <button type="submit" class="btn btn-primary btn-block" id="submit-payment">Submit Payment</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 LuxAuto Dealership. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#" class="footer-link">Privacy Policy</a>
+                <a href="#" class="footer-link">Terms of Service</a>
+                <a href="#" class="footer-link">Contact Us</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Processing Modal -->
+    <div class="modal" id="processing-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Processing Payment</h3>
+                <button class="modal-close" id="close-processing-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="processing-spinner"></div>
+                <p>Please wait while we process your payment...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal" id="success-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Payment Successful!</h3>
+                <button class="modal-close" id="close-success-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="success-icon">✓</div>
+                <h3>Thank you for your purchase!</h3>
+                <p>Your payment for the 2024 Tesla Model Y has been processed successfully.</p>
+                <p>Transaction ID: <strong id="transaction-id">TX123456789</strong></p>
+                <p>A confirmation email has been sent to your email address.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="view-receipt">View Receipt</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded',async function() {
+            const myData = localStorage.getItem('objects');
+            const carID = JSON.parse(myData).carid;
+            const ct = JSON.parse(myData).ctype;
+            const response = await fetch(`http://localhost:5000/list/${ct}/${carID}`,{
+                method: 'GET',
+            });
+            let data = (await response.json())[0];
+            console.log(data);
+            document.querySelector(".vehicle-image").innerHTML = `<img src="./images/${data.path}" alt="${data.make} ${data.model}"></img>`;
+            document.querySelector(".vehicle-details").innerHTML = `<h3>${data.year} ${data.make} ${data.model}</h3>`;
+            document.querySelector(".vehicle-price").innerText = `${data.price}`;
+            document.getElementById("vbp").innerText = `${data.price}`;
+            document.getElementById("gst").innerText = `${data.price * 0.2}`;
+            let total = parseInt(data.price * 0.2) + parseInt(data.price);
+            document.querySelector(".text-success").innerText = `${total}`;
+
+            // Format card number with spaces
+            const cardNumberInput = document.getElementById('card-number');
+            cardNumberInput.addEventListener('input', function(e) {
+                // Remove all non-digits
+                let value = e.target.value.replace(/\D/g, '');
+                
+                // Add spaces after every 4 digits
+                if (value.length > 0) {
+                    value = value.match(new RegExp('.{1,4}', 'g')).join(' ');
+                }
+                
+                e.target.value = value;
+            });
+            
+            // Format expiry date with slash
+            const expiryInput = document.getElementById('expiry-date');
+            expiryInput.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                
+                if (value.length > 2) {
+                    value = value.substring(0, 2) + '/' + value.substring(2);
+                }
+                
+                e.target.value = value;
+            });
+            
+            // Handle form submission
+            const paymentForm = document.getElementById('payment-form');
+            const processingModal = document.getElementById('processing-modal');
+            const successModal = document.getElementById('success-modal');
+            
+            paymentForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Show processing modal
+                processingModal.style.display = 'flex';
+                
+                // Simulate processing time (3 seconds)
+                setTimeout(function() {
+                    // Hide processing modal
+                    processingModal.style.display = 'none';
+                    
+                    // Generate random transaction ID
+                    const transactionId = 'TX' + Math.floor(Math.random() * 1000000000);
+                    document.getElementById('transaction-id').textContent = transactionId;
+                    
+                    // Show success modal
+                    successModal.style.display = 'flex';
+                }, 3000);
+            });
+            
+            // Close modals when clicking the X button
+            document.getElementById('close-processing-modal').addEventListener('click', function() {
+                processingModal.style.display = 'none';
+            });
+            
+            document.getElementById('close-success-modal').addEventListener('click', function() {
+                successModal.style.display = 'none';
+            });
+            
+            // View receipt button (just closes the modal in this demo)
+            document.getElementById('view-receipt').addEventListener('click', function() {
+                successModal.style.display = 'none';
+                alert('YOUR RECIEPT HAS BEEN DOWNLOADED');
+            });
+            
+            // Close modals when clicking outside
+            window.addEventListener('click', function(e) {
+                if (e.target === processingModal) {
+                    processingModal.style.display = 'none';
+                }
+                if (e.target === successModal) {
+                    successModal.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

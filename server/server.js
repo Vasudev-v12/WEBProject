@@ -7,113 +7,119 @@ app.use(cors());
 app.use(express.json()); // To handle JSON data
 
 
-app.get('/cars/:make/:year/:price/:fuel', async (req, res) => {
+app.get('/cars/:ct/:make/:year/:price/:fuel', async (req, res) => {
+    
     try {
+        let ct = req.params.ct;
+        let tbl = 'cars';
+        if(ct == 'new'){
+            tbl = 'ncars';
+        }
         let make = req.params.make;
         let year = req.params.year;
         let price = req.params.price;
         let fuel = req.params.fuel;
         let result;
         if(make == '*' & year == '*' & price == '*' & fuel == '*'){
-            result = await pool.query('SELECT * from cars');
+            result = await pool.query(`SELECT * from ${tbl}`);
         }
         else if(price == '*' & make == '*' & year == '*'){
-            result = await pool.query(`SELECT * FROM cars WHERE fuel='${fuel}'`);
+            result = await pool.query(`SELECT * FROM ${tbl} WHERE fuel='${fuel}'`);
         }
         else if(price == '*' & make == '*' & fuel == '*'){
-            result = await pool.query(`SELECT * FROM cars WHERE year=${year}`);
+            result = await pool.query(`SELECT * FROM ${tbl} WHERE year=${year}`);
         }
         else if(price == '*' & year == '*' & fuel == '*'){
-            result = await pool.query(`SELECT * FROM cars WHERE make='${make}'`);
+            result = await pool.query(`SELECT * FROM ${tbl} WHERE make='${make}'`);
         }
         else if(price == '*' & make == '*'){
-            result = await pool.query(`SELECT * FROM cars WHERE year=${year} AND fuel='${fuel}'`);
+            result = await pool.query(`SELECT * FROM ${tbl} WHERE year=${year} AND fuel='${fuel}'`);
         }
         else if(price == '*' & year == '*'){
-            result = await pool.query(`SELECT * FROM cars WHERE make='${make}' AND fuel='${fuel}'`);
+            result = await pool.query(`SELECT * FROM ${tbl} WHERE make='${make}' AND fuel='${fuel}'`);
         }
         else if(price == '*' & fuel == '*'){
-            result = await pool.query(`SELECT * FROM cars WHERE make='${make}' AND year=${year}`);
+            result = await pool.query(`SELECT * FROM ${tbl} WHERE make='${make}' AND year=${year}`);
         }
         else if(price == '*'){
-            result = await pool.query(`SELECT * FROM cars WHERE make='${make}' AND year=${year} AND fuel='${fuel}'`);
+            result = await pool.query(`SELECT * FROM ${tbl} WHERE make='${make}' AND year=${year} AND fuel='${fuel}'`);
         }
         else{
             if(price == 'low' & make == '*' & year == '*' & fuel == '*'){
-                result = await pool.query(`SELECT * FROM cars WHERE price BETWEEN 0 AND 1000000`);
+                result = await pool.query(`SELECT * FROM ${tbl} WHERE price BETWEEN 0 AND 1000000`);
             }
             else if(price == 'low' & fuel == '*' & make == '*'){
-                result = await pool.query(`SELECT * FROM cars WHERE price BETWEEN 0 AND 1000000 AND year=${year}`);
+                result = await pool.query(`SELECT * FROM ${tbl} WHERE price BETWEEN 0 AND 1000000 AND year=${year}`);
             }
             else if(price == 'low' & fuel == '*' & year == '*'){
-                result = await pool.query(`SELECT * FROM cars WHERE make='${make}' AND price BETWEEN 0 AND 1000000`);
+                result = await pool.query(`SELECT * FROM ${tbl} WHERE make='${make}' AND price BETWEEN 0 AND 1000000`);
             }
             else if(price == 'low' & make == '*' & year == '*'){
-                result = await pool.query(`SELECT * FROM cars WHERE fuel='${fuel}' AND price BETWEEN 0 AND 1000000'`);
+                result = await pool.query(`SELECT * FROM ${tbl} WHERE fuel='${fuel}' AND price BETWEEN 0 AND 1000000'`);
             }
             else if(price == 'low' & make == '*'){
-                result = await pool.query(`SELECT * FROM cars WHERE year=${year} AND price BETWEEN 0 AND 1000000 AND fuel='${fuel}'`);
+                result = await pool.query(`SELECT * FROM ${tbl} WHERE year=${year} AND price BETWEEN 0 AND 1000000 AND fuel='${fuel}'`);
             }
             else if(price == 'low' & year == '*'){
-                result = await pool.query(`SELECT * FROM cars WHERE make='${make}' AND price BETWEEN 0 AND 1000000 AND fuel='${fuel}'`);
+                result = await pool.query(`SELECT * FROM ${tbl} WHERE make='${make}' AND price BETWEEN 0 AND 1000000 AND fuel='${fuel}'`);
             }
             else if(price == 'low' & fuel == '*'){
-                result = await pool.query(`SELECT * FROM cars WHERE make='${make}' AND price BETWEEN 0 AND 1000000 AND year=${year}`);
+                result = await pool.query(`SELECT * FROM ${tbl} WHERE make='${make}' AND price BETWEEN 0 AND 1000000 AND year=${year}`);
             }
 
             else if(price == 'medium' & make == '*' & year == '*' & fuel == '*'){
-                result = await pool.query(`SELECT * FROM cars WHERE price BETWEEN 1000000 AND 5000000`);
+                result = await pool.query(`SELECT * FROM ${tbl} WHERE price BETWEEN 1000000 AND 5000000`);
             }
             else if(price == 'medium' & fuel == '*' & make == '*'){
-                result = await pool.query(`SELECT * FROM cars WHERE price BETWEEN 1000000 AND 5000000 AND year=${year}`);
+                result = await pool.query(`SELECT * FROM ${tbl} WHERE price BETWEEN 1000000 AND 5000000 AND year=${year}`);
             }
             else if(price == 'medium' & fuel == '*' & year == '*'){
-                result = await pool.query(`SELECT * FROM cars WHERE make='${make}' AND price BETWEEN 1000000 AND 5000000`);
+                result = await pool.query(`SELECT * FROM ${tbl} WHERE make='${make}' AND price BETWEEN 1000000 AND 5000000`);
             }
             else if(price == 'medium' & make == '*' & year == '*'){
-                result = await pool.query(`SELECT * FROM cars WHERE fuel='${fuel}' AND price BETWEEN 1000000 AND 5000000`);
+                result = await pool.query(`SELECT * FROM ${tbl} WHERE fuel='${fuel}' AND price BETWEEN 1000000 AND 5000000`);
             }
             else if(price == 'medium' & make == '*'){
-                result = await pool.query(`SELECT * FROM cars WHERE year=${year} AND price BETWEEN 1000000 AND 5000000 AND fuel='${fuel}'`);
+                result = await pool.query(`SELECT * FROM ${tbl} WHERE year=${year} AND price BETWEEN 1000000 AND 5000000 AND fuel='${fuel}'`);
             }
             else if(price == 'medium' & year == '*'){
-                result = await pool.query(`SELECT * FROM cars WHERE make='${make}' AND price BETWEEN 1000000 AND 5000000 AND fuel='${fuel}'`);
+                result = await pool.query(`SELECT * FROM ${tbl} WHERE make='${make}' AND price BETWEEN 1000000 AND 5000000 AND fuel='${fuel}'`);
             }
             else if(price == 'medium' & fuel == '*'){
-                result = await pool.query(`SELECT * FROM cars WHERE make='${make}' AND price BETWEEN 1000000 AND 5000000 AND year=${year}`);
+                result = await pool.query(`SELECT * FROM ${tbl} WHERE make='${make}' AND price BETWEEN 1000000 AND 5000000 AND year=${year}`);
             }
             
             else if(price == 'high' & make == '*' & year == '*' & fuel == '*'){
-                result = await pool.query(`SELECT * FROM cars WHERE price>5000000`);
+                result = await pool.query(`SELECT * FROM ${tbl} WHERE price>5000000`);
             }
             else if(price == 'high' & fuel == '*' & make == '*'){
-                result = await pool.query(`SELECT * FROM cars WHERE price>5000000 AND year=${year}`);
+                result = await pool.query(`SELECT * FROM ${tbl} WHERE price>5000000 AND year=${year}`);
             }
             else if(price == 'high' & fuel == '*' & year == '*'){
-                result = await pool.query(`SELECT * FROM cars WHERE make='${make}' AND price>5000000`);
+                result = await pool.query(`SELECT * FROM ${tbl} WHERE make='${make}' AND price>5000000`);
             }
             else if(price == 'high' & make == '*' & year == '*'){
-                result = await pool.query(`SELECT * FROM cars WHERE fuel='${fuel}' AND price>5000000`);
+                result = await pool.query(`SELECT * FROM ${tbl} WHERE fuel='${fuel}' AND price>5000000`);
             }
             else if(price == 'high' & make == '*'){
-                result = await pool.query(`SELECT * FROM cars WHERE year=${year} AND price>5000000 AND fuel='${fuel}'`);
+                result = await pool.query(`SELECT * FROM ${tbl} WHERE year=${year} AND price>5000000 AND fuel='${fuel}'`);
             }
             else if(price == 'high' & year == '*'){
-                result = await pool.query(`SELECT * FROM cars WHERE make='${make}' AND price>5000000 AND fuel='${fuel}'`);
+                result = await pool.query(`SELECT * FROM ${tbl} WHERE make='${make}' AND price>5000000 AND fuel='${fuel}'`);
             }
             else if(price == 'high' & fuel == '*'){
-                result = await pool.query(`SELECT * FROM cars WHERE make='${make}' AND price>5000000 AND year=${year}`);
+                result = await pool.query(`SELECT * FROM ${tbl} WHERE make='${make}' AND price>5000000 AND year=${year}`);
             }
             
             else{
                 if(price == 'low'){
-                    result = await pool.query(`SELECT * FROM cars WHERE make='${make}' AND year=${year} AND price BETWEEN 0 AND 1000000 AND fuel='${fuel}'`);
+                    result = await pool.query(`SELECT * FROM ${tbl} WHERE make='${make}' AND year=${year} AND price BETWEEN 0 AND 1000000 AND fuel='${fuel}'`);
                 }
                 else if(price == 'medium'){
-                    result = await pool.query(`SELECT * FROM cars WHERE make='${make}' AND year=${year} AND price BETWEEN 1000000 AND 5000000 AND fuel='${fuel}'`);
+                    result = await pool.query(`SELECT * FROM ${tbl} WHERE make='${make}' AND year=${year} AND price BETWEEN 1000000 AND 5000000 AND fuel='${fuel}'`);
                 }
                 else if(price == 'high'){
-                    result = await pool.query(`SELECT * FROM cars WHERE make='${make}' AND year=${year} AND price>5000000 AND fuel='${fuel}'`);
+                    result = await pool.query(`SELECT * FROM ${tbl} WHERE make='${make}' AND year=${year} AND price>5000000 AND fuel='${fuel}'`);
                 }
             }
         }
@@ -125,10 +131,15 @@ app.get('/cars/:make/:year/:price/:fuel', async (req, res) => {
     }
 });
 
-app.get('/list/:id',async(req,res) => {
+app.get('/list/:ct/:id',async(req,res) => {
+    const ct = req.params.ct;
+    let tbl = 'cars';
+    if(ct == 'new'){
+        tbl = 'ncars';
+    }
     const id = req.params.id;
     try{
-        let carList = await pool.query(`SELECT * FROM cars WHERE id=${id}`);
+        let carList = await pool.query(`SELECT * FROM ${tbl} WHERE id=${id}`);
         res.json(carList.rows);
         console.log(carList.rows);
     } catch(err){

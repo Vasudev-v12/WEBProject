@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cars Now</title>
+  <link href="https://fonts.googleapis.com/css2?family=Boldonse&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&family=Special+Gothic+Condensed+One&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="homeStyles.css">
+</head>
+<body>
+  <div class="slideshow">
+    <div class="slide" style="background-image: url('./images/assets/pexels-nordic-overdrive-202768-1082655.jpg')"></div>
+    <div class="slide" style="background-image: url('./images/assets/pexels-mo-eid-1268975-2521559.jpg')"></div>
+    <div class="slide" style="background-image: url('./images/assets/pexels-mikebirdy-452099.jpg')"></div>
+    <div class="slide" style="background-image: url('./images/assets/pexels-mikebirdy-100656.jpg')"></div>
+    <div class="slide" style="background-image: url('./images/assets/pexels-mikebirdy-116675.jpg')"></div>
+  </div>
+
+  <header class="main-header">
+    <a href="login.html" class="signup-btn">Login</a>
+    <h1 class="logo">CARS NOW</h1>
+  </header>
+
+  <section class="hero">
+    <div class="overlay">
+      <div class="hero-text">
+        <p>Ready to upgrade to a brand-new ride? <br>
+            At CarsNow, we offer the latest brand-new models from top manufacturers at unbeatable prices, along with a wide range of certified pre-owned vehicles.</p>
+        <div class="buttons">
+          <a href="main.html" class="hero-btn">New Cars</a>
+          <a href="main.html" class="hero-btn">Used Cars</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="signup-section">
+    <div class="signup-content">
+      <div class="signup-text">
+        <h2>Login to your account</h2>
+        <p>Signing up to our website is quick and provides with a better experience.</p>
+        <div class="signup-buttons">
+          <a href="signup.html" class="signup-action-btn">Sign Up</a>
+          <a href="login.html" class="signup-action-btn outline">Login</a>
+        </div>
+      </div>
+      <div class="signup-image">
+        <img src="./images/assets/pexels-nordic-overdrive-202768-1082655.jpg">
+      </div>
+    </div>
+  </section>
+
+  <footer class="main-footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>About Us</h3>
+        <p>CarsNow is your trusted partner in finding the perfect vehicle. We offer a wide selection of new and used cars with transparent pricing and exceptional service.</p>
+      </div>
+      <div class="footer-section">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="main.html">New Cars</a></li>
+          <li><a href="main.html">Used Cars</a></li>
+          <li><a href="#">Contact Us</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Contact Info</h3>
+        <ul>
+          <li>Email: carsnow@gmail.com</li>
+          <li>Phone: 9946392323</li>
+          <li>Address: Chennai, Tamil Nadu</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2024 CarsNow. All rights reserved.</p>
+    </div>
+  </footer>
+  <script>
+    document.addEventListener("DOMContentLoaded",function(){
+      if(localStorage.getItem("profiles") != null){
+          let btn = document.querySelector(".main-header");
+          btn.innerHTML = `
+            <a class="logout-btn" onclick="logout()">Log Out</a>
+            <a href="userProfile.html" class="signup-btn">Profile</a>
+            <h1 class="logo">CARS NOW</h1>
+          `;
+          document.querySelector(".signup-text").innerHTML = `
+            <h2>Check your Profile</h2>
+            <div class="signup-buttons">
+              <a href="userProfile.html" class="signup-action-btn">Profile</a>
+            </div>
+          `;
+      }
+    });
+
+    function logout(){
+      localStorage.clear();
+      window.location.reload();
+    }
+  </script>
+</body>
+</html>

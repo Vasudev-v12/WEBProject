@@ -1,6 +1,6 @@
 function logout(){
     localStorage.clear();
-    window.location.href = "main.html";
+    window.location.href = "home.html";
 }
 
 function loadData(){
