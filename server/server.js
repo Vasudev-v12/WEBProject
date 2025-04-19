@@ -147,6 +147,26 @@ app.get('/list/:ct/:id',async(req,res) => {
     }
 });
 
+app.get('/getsoldstatus/:userid',async(req,res)=>{
+    try{
+        let id = req.params.userid;
+        let data = await pool.query(`SELECT * from soldcars where userid=${id}`);
+        res.json(data.rows);
+    } catch(err){
+        console.error(err);
+    }
+});
+
+app.get('/getboughtstatus/:userid',async(req,res)=>{
+    try{
+        let id = req.params.userid;
+        let data = await pool.query(`SELECT * from boughtcars where userid=${id}`);
+        res.json(data.rows);
+    } catch(err){
+        console.error(err);
+    }
+});
+
 app.get('/logUser/:email/:pwd',async (req,res)=>{
     try{
         let email = req.params.email;
@@ -183,6 +203,28 @@ app.post('/changePwd',async(req,res) =>{
         console.log(data);
         let result = await pool.query(`UPDATE users SET password=$1 WHERE email=$2`,[data.newpwd,data.email]);
         res.json("password changed");
+    }catch(err){
+        console.error(err);
+    }
+});
+
+app.post('/sellcar',async(req,res) => {
+    try{
+        const data = req.body;
+        let result = await pool.query(`INSERT INTO soldcars(userid,year,fuel,make,model,city,state,address,phone,status)VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,'booked')`,[data.userid,data.year,data.fuel,data.make,data.model,data.city,data.state,data.addr,data.phone]);
+        console.log(result);
+        res.json("request sent");
+    }catch(err){
+        console.error(err);
+    }
+});
+
+app.post('/buycar',async(req,res) => {
+    try{
+        const data = req.body;
+        let result = await pool.query(`INSERT INTO boughtcars(userid,carid,make,model,status,used)VALUES($1,$2,$3,$4,'booked',$5)`,[data.userid,data.carid,data.make,data.model,data.used]);
+        console.log(result);
+        res.json("request sent");
     }catch(err){
         console.error(err);
     }
