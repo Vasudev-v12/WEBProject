@@ -34,8 +34,8 @@
             text-align: center;
         }
 
-        .main-image {
-            width: 100%;
+        #main-image {
+            width: 600px;
             border-radius: 10px;
         }
 

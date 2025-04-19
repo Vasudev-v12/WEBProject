@@ -175,3 +175,158 @@ footer {
     background-color: black;
     padding: 10px;
 }
+
+#register {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    background: #f9f9f9;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+form#car-registration-form {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    max-width: 600px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+form#car-registration-form h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #333;
+}
+
+form#car-registration-form label {
+    margin-top: 1rem;
+    font-weight: 600;
+    color: #555;
+}
+
+form#car-registration-form input,
+form#car-registration-form select,
+form#car-registration-form textarea {
+    margin-top: 0.3rem;
+    padding: 0.6rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+form#car-registration-form input:focus,
+form#car-registration-form select:focus,
+form#car-registration-form textarea:focus {
+    border-color: #007bff;
+}
+
+form#car-registration-form textarea {
+    resize: vertical;
+    min-height: 60px;
+}
+
+#subbtn {
+    margin-top: 2rem;
+    padding: 0.8rem;
+    background-color: #007bff;
+    color: white;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#subbtn:hover {
+    background-color: #0056b3;
+}
+
+.status-message {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #fefefe;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+    font-family: 'Poppins', 'Segoe UI', sans-serif;
+    color: #333;
+    line-height: 1.6;
+}
+
+.status-message h2 {
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    padding-left: 1rem;
+    border-left: 4px solid #007bff;
+}
+
+.calculator-section {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.calculator-section h1 {
+    color: #333;
+}
+
+.calculator-section p {
+    color: #666;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+button#calculate-button {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button#calculate-button:hover {
+    background-color: #e03e3e;
+}
+
+#result-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#result-table th, #result-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+#result-table th {
+    background-color: #f5f5f5;
+}
+
+main{
+    padding-top: 40px;
+}

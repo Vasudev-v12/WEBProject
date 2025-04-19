@@ -18,6 +18,9 @@ document.addEventListener("DOMContentLoaded", async function(){
         title.innerHTML = `${data.make} ${data.model}`;
         heading.innerHTML = `${data.make} ${data.model}`;
         price.innerHTML = `&#8377; ${data.price}`;
+        let userid = localStorage.getItem("profiles").id;
+        let carinfo = {userid:`${userid}`,carid:`${data.id}`,used:`${ct}`,make:`${data.make}`,model:`${data.model}`,year:`${data.year}`};
+        localStorage.setItem("bookcar",carinfo);
         if(ct=="used"){
             specs.innerHTML = `
             <li><strong>Distance:</strong> ${data.distance} Km</li>

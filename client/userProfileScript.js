@@ -1,3 +1,5 @@
+document.addEventListener("DOMContentLoaded",action);
+
 function logout(){
     localStorage.clear();
     window.location.href = "home.html";
@@ -11,6 +13,67 @@ function loadData(){
     name.innerHTML = JSON.parse(data).name;
     email.innerHTML = JSON.parse(data).email;
     phone.innerHTML = JSON.parse(data).phone;
+}
+
+async function action(){
+    let data = localStorage.getItem("profiles");
+    let userid = JSON.parse(data).id;
+    let result = await fetch(`http://localhost:5000/getsoldstatus/${userid}`,{
+        method: 'GET',
+    });
+    console.log(result);
+    if(result.ok){
+        let activities = await result.json();
+        if(activities.length > 0){
+            let cont = document.getElementById('activity-cont');
+            cont.innerHTML = `<h3>Cars sold</h3>`;
+            let num = 1;
+            activities.forEach(activity => {
+                let temp = document.createElement("div");
+                temp.class="act";
+                temp.id = `act-${num}`;
+                temp.innerHTML = `
+                    <p>
+                    Car make: ${activity.make}<br>
+                    Car model: ${activity.model}<br>
+                    Car registration: ${activity.state}<br>
+                    Status: ${activity.status}<br>
+                    </p>
+                `;
+                num++;
+                cont.appendChild(temp);
+            });
+        }
+    }
+
+    let result1 = await fetch(`http://localhost:5000/getboughtstatus/${userid}`,{
+        method: 'GET',
+    });
+    console.log(result1);
+    if(result.ok){
+        let activities = await result1.json();
+        if(activities.length > 0) {
+            let cont = document.getElementById('activity-cont');
+            let h = document.createElement('h3');
+            h.innerHTML = `<h3>Cars bought</h3>`;
+            cont.appendChild(h);
+            let num = 1;
+            activities.forEach(activity => {
+                let temp = document.createElement("div");
+                temp.class = 'act';
+                temp.id = `act-${num}`;
+                temp.innerHTML = `
+                    <p>
+                    Car make: ${activity.make}<br>
+                    Car model: ${activity.model}<br>
+                    Status: ${activity.status}<br>
+                    </p>
+                `;
+                num++;
+                cont.appendChild(temp);
+            });
+        }
+    }
 }
 
 async function changePwd(){
@@ -36,8 +99,6 @@ async function changePwd(){
             } catch(err){
                 console.error(err);
             }
-            
-            
         }
         else{
             alert("The confirm password field must be same as new password");
@@ -47,5 +108,4 @@ async function changePwd(){
         alert("Wrong password");
     }
 }
-
 document.addEventListener("DOMContentLoaded",loadData);

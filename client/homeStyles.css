@@ -2,7 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-}
+  }
   
   body {
     font-family: "Special Gothic Condensed One", sans-serif;
@@ -10,7 +10,7 @@
     font-style: normal;
     min-height: 100vh;
     overflow-x: hidden;
-    background: url('./images/assets/cover.jpg') no-repeat center center fixed;
+    background: url('cover.jpg') no-repeat center center fixed;
     background-size: cover;
   }
   
@@ -102,7 +102,7 @@
     right: 9rem;
   }
   
-  .signup-btn:hover, .login-btn:hover, .logout-btn:hover{
+  .signup-btn:hover, .login-btn:hover, .logout-btn:hover {
     background: white;
     color: black;
   }
@@ -163,14 +163,14 @@
     color: black;
   }
   
-  /* Signup Section */
-  .signup-section {
+  /* Common Section Template */
+  .section-template {
     background: #000;
     padding: 4rem 0;
     color: white;
   }
   
-  .signup-content {
+  .section-content {
     max-width: 1200px;
     margin: 0 auto;
     display: flex;
@@ -179,32 +179,35 @@
     padding: 0 2rem;
   }
   
-  .signup-text {
+  .section-text {
     flex: 1;
   }
   
-  .signup-text h2 {
-    font-size: 3rem;
+  .section-text h2 {
+    font-size: 4rem;
     margin-bottom: 1.5rem;
     font-family: 'Boldonse', sans-serif;
+    font-weight: bold;
+    color: white;
   }
   
-  .signup-text p {
+  .section-text p {
     font-size: 1.5rem;
     margin-bottom: 2rem;
     line-height: 1.6;
     opacity: 0.9;
+    color: white;
   }
   
-  .signup-buttons {
+  .section-buttons {
     display: flex;
     gap: 1rem;
   }
   
-  .signup-action-btn {
+  .section-btn {
     text-decoration: none;
     color: white;
-    padding: 1rem 2rem;
+    padding: 1rem 2.5rem;
     border-radius: 4px;
     font-size: 1.2rem;
     transition: all 0.3s ease;
@@ -213,32 +216,50 @@
     background: #ff4d4d;
   }
   
-  .signup-action-btn.outline {
+  .section-btn.outline {
     background: transparent;
     border: 2px solid white;
   }
   
-  .signup-action-btn:hover {
+  .section-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(255, 77, 77, 0.3);
   }
   
-  .signup-action-btn.outline:hover {
+  .section-btn.outline:hover {
     background: white;
     color: black;
   }
   
-  .signup-image {
+  .section-image {
     flex: 1;
     height: 400px;
     overflow: hidden;
     border-radius: 10px;
   }
   
-  .signup-image img {
+  .section-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+  
+  /* Apply template to specific sections */
+  .signup-section, .gallery-section {
+    background: #000;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .signup-section::before, .gallery-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #000;
+    z-index: -1;
   }
   
   /* Footer Styles */
@@ -298,5 +319,44 @@
     text-align: center;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     background: rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 1024px) {
+    .section-content {
+      flex-direction: column;
+    }
+    
+    .section-image {
+      width: 100%;
+    }
+    
+    .footer-content {
+      flex-direction: column;
+      text-align: center;
+    }
+    
+    .footer-section {
+      margin-bottom: 2rem;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .section-text h2 {
+      font-size: 2.5rem;
+    }
+    
+    .section-text p {
+      font-size: 1.2rem;
+    }
+    
+    .section-buttons {
+      flex-direction: column;
+    }
+    
+    .signup-btn, .login-btn {
+      padding: 0.4rem 1rem;
+      font-size: 0.9rem;
+    }
   }
   

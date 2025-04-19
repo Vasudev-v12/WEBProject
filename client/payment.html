@@ -323,7 +323,7 @@
                             <label for="state">State</label>
                             <select id="state" required>
                                 <option value="">Select State</option>
-                                <option value="AL">TAMIL NADUoption>
+                                <option value="AL">TAMIL NADU<option>
                                 <option value="AK">MAHARASHTRA</option>
                                 <option value="AZ">ANDHRA</option>
                                 <option value="AR">TELANGANA</option>
@@ -354,7 +354,7 @@
 
     <footer>
         <div class="container">
-            <p>&copy; 2025 LuxAuto Dealership. All rights reserved.</p>
+            <p>&copy; 2025 Cars Now Dealership. All rights reserved.</p>
             <div class="footer-links">
                 <a href="#" class="footer-link">Privacy Policy</a>
                 <a href="#" class="footer-link">Terms of Service</a>
@@ -387,12 +387,11 @@
             <div class="modal-body">
                 <div class="success-icon">✓</div>
                 <h3>Thank you for your purchase!</h3>
-                <p>Your payment for the 2024 Tesla Model Y has been processed successfully.</p>
-                <p>Transaction ID: <strong id="transaction-id">TX123456789</strong></p>
-                <p>A confirmation email has been sent to your email address.</p>
+                <p>Transaction ID: <strong id="transaction-id"></strong></p>
+                <p>Your order has been saved to your profile</p>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary" id="view-receipt">View Receipt</button>
+                <button class="btn btn-primary" id="view-receipt">Go to Home page</button>
             </div>
         </div>
     </div>
@@ -401,6 +400,8 @@
     <script>
         document.addEventListener('DOMContentLoaded',async function() {
             const myData = localStorage.getItem('objects');
+            const userdata = localStorage.getItem('profiles');
+            const userid = JSON.parse(userdata).id;
             const carID = JSON.parse(myData).carid;
             const ct = JSON.parse(myData).ctype;
             const response = await fetch(`http://localhost:5000/list/${ct}/${carID}`,{
@@ -415,7 +416,7 @@
             document.getElementById("gst").innerText = `${data.price * 0.2}`;
             let total = parseInt(data.price * 0.2) + parseInt(data.price);
             document.querySelector(".text-success").innerText = `${total}`;
-
+            let cardata = {userid:`${userid}`,carid:`${carID}`,used:`${ct}`,make:`${data.make}`,model:`${data.model}`,year:`${data.year}`};
             // Format card number with spaces
             const cardNumberInput = document.getElementById('card-number');
             cardNumberInput.addEventListener('input', function(e) {
@@ -447,21 +448,24 @@
             const processingModal = document.getElementById('processing-modal');
             const successModal = document.getElementById('success-modal');
             
-            paymentForm.addEventListener('submit', function(e) {
+            paymentForm.addEventListener('submit',async function(e) {
                 e.preventDefault();
-                
+                const response1 = await fetch('http://localhost:5000/buycar',{
+                    method: 'POST',
+                    headers:{"Content-Type":"application/json"},
+                    body: JSON.stringify(cardata),
+                });
+                console.log(response1);
+
+                const transactionId = 'TX' + Math.floor(Math.random() * 1000000000);            
+                document.getElementById("transaction-id").innerHTML = `${transactionId}`;
+                    
                 // Show processing modal
                 processingModal.style.display = 'flex';
-                
                 // Simulate processing time (3 seconds)
                 setTimeout(function() {
                     // Hide processing modal
                     processingModal.style.display = 'none';
-                    
-                    // Generate random transaction ID
-                    const transactionId = 'TX' + Math.floor(Math.random() * 1000000000);
-                    document.getElementById('transaction-id').textContent = transactionId;
-                    
                     // Show success modal
                     successModal.style.display = 'flex';
                 }, 3000);
@@ -477,9 +481,10 @@
             });
             
             // View receipt button (just closes the modal in this demo)
-            document.getElementById('view-receipt').addEventListener('click', function() {
+            document.getElementById('view-receipt').addEventListener('click',function() {
                 successModal.style.display = 'none';
-                alert('YOUR RECIEPT HAS BEEN DOWNLOADED');
+                alert('YOUR ORDER HAS BEEN SAVED TO YOUR PROFILE');
+                window.location.href = "main.html";
             });
             
             // Close modals when clicking outside

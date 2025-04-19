@@ -83,6 +83,10 @@
             display: block;
             margin: 0 auto;
         }
+        .act{
+            border-radius:7px;
+            border: solid gray 2px;
+        }
     </style>
     <script>
         function editField(fieldId) {
@@ -114,20 +118,22 @@
             <input type=s"text" id="username-input" class="edit-input" value="@jennywilson" onblur="saveField('username')">
             
             <div class="user-details">
-                <p><strong>Username:</strong> <span id="name">username</span> <span class="edit-icon" onclick="editField('name')">✎</span></p>
+                <p><strong>Username:</strong> <span id="name">username</span></p>
                 <input type="text" id="name-input" class="edit-input" value="Jenny Wilson" onblur="saveField('name')">
                 
-                <p><strong>Email:&nbsp;</strong> <span id="email">email</span> <span class="edit-icon" onclick="editField('email')">✎</span></p>
+                <p><strong>Email:&nbsp;</strong> <span id="email">email</span></p>
                 <input type="text" id="email-input" class="edit-input" value="jenny@gmail.com" onblur="saveField('email')">
                 
-                <p><strong>Address:&nbsp;</strong> <span id="address">address to be updated</span> <span class="edit-icon" onclick="editField('address')">✎</span></p>
-                <input type="text" id="address-input" class="edit-input" value="New York, USA" onblur="saveField('address')">
-
-                <p><strong>Phone:&nbsp;</strong> <span id="phone">phone</span> <span class="edit-icon" onclick="editField('phone')">✎</span></p>
+                <p><strong>Phone:&nbsp;</strong> <span id="phone">phone</span></p>
                 <input type="text" id="phone-input" class="edit-input" value="" onblur="saveField('phone')">
             </div>
         </div>
         
+        <div class="section" id="action-tab">
+            <h2>Your activities</h2>
+            <p id="activity-cont">Currently there are no activities</p>
+        </div>
+
         <div class="section2" id ="2">
             <h3>Change Password</h3>
             <input id="oldpwd" type="password" placeholder="Current Password"><br><br>
